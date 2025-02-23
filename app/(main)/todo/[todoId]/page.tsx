@@ -4,17 +4,14 @@ import Loading from "@/app/loading";
 import TodoDetail from "@/components/todo/TodoDetail";
 
 type TodoDetailPageProps = {
-  params: {
+  params: Promise<{
     todoId: string;
-  };
+  }>;
 };
 
 const TodoDetailPage = async ({ params }: TodoDetailPageProps) => {
-  const { todoId } = params;
+  const { todoId } = await params;
   const supabase = await createClient();
-
-  const { data: userData } = await supabase.auth.getUser();
-  const user = userData?.user;
 
   // Todo詳細取得
   const { data: todo } = await supabase
@@ -35,12 +32,9 @@ const TodoDetailPage = async ({ params }: TodoDetailPageProps) => {
     return <div className="text-center">Todoが存在しません</div>;
   }
 
-  // ログインユーザーがTodo作成者かどうか
-  const isMyTodo = user?.id === todo.user_id;
-
   return (
     <Suspense fallback={<Loading />}>
-      <TodoDetail todo={todo} isMyTodo={isMyTodo} />
+      <TodoDetail todo={todo} />
     </Suspense>
   );
 };

@@ -4,8 +4,14 @@ import { Suspense } from "react";
 import Loading from "@/app/loading";
 import TodoEdit from "@/components/todo/TodoEdit";
 
-const TodoEditPage = async ({ params }: { params: { todoId: string } }) => {
-  const { todoId } = params;
+type TodoEditPageProps = {
+  params: Promise<{
+    todoId: string;
+  }>;
+};
+
+const TodoEditPage = async ({ params }: TodoEditPageProps) => {
+  const { todoId } = await params;
   const supabase = await createClient();
 
   const { data: userData } = await supabase.auth.getUser();
