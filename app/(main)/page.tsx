@@ -37,7 +37,7 @@ const MainPage = async () => {
     )
     .eq("user_id", user.id)
     .order("updated_at", { ascending: false });
-  console.log(todos);
+
   if (todos?.length === 0 || error) {
     return <div className="text-center">TODOがありません</div>;
   }
