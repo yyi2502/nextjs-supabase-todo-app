@@ -2,15 +2,9 @@
 
 import { changeCompleted, deleteTodo } from "@/actions/todo";
 import { TodoType } from "@/types";
-import {
-  FilePenLine,
-  Loader2,
-  Square,
-  SquareCheckBig,
-  Trash2,
-} from "lucide-react";
+import { Loader2, Square, SquareCheckBig, Trash2 } from "lucide-react";
 import Link from "next/link";
-import { startTransition, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
@@ -79,32 +73,36 @@ const TodoItem = ({ todo }: TodoItemProps) => {
   };
 
   return (
-    <Link
-      href={`todo/${todo.id}`}
-      className="flex w-full items-center space-x-4 p-2 border-b hover:bg-gray-50 transition"
-    >
-      {todo.completed ? (
-        <SquareCheckBig onClick={handleCompleted} />
-      ) : (
-        <Square onClick={handleCompleted} />
-      )}
-      <div className={`flex-1 ${todo.completed ? "line-through" : ""}`}>
-        <div className="font-bold">{todo.title}</div>
-        <div className="text-sm text-gray-600">{todo.content}</div>
-      </div>
-
-      <button
-        className="cursor-pointer"
-        onClick={handleDelete}
-        disabled={isPending}
+    <>
+      <Link
+        href={`todo/${todo.id}`}
+        className="flex w-full items-center space-x-4 p-2 border-b hover:bg-gray-50 transition"
       >
-        {isPending ? (
-          <Loader2 className="h-6 w-6 animate-spin text-red-700" />
+        {todo.completed ? (
+          <SquareCheckBig onClick={handleCompleted} />
         ) : (
-          <Trash2 className="w-6 h-6 text-red-700" />
+          <Square onClick={handleCompleted} />
         )}
-      </button>
-    </Link>
+        <div className={`flex-1 ${todo.completed ? "line-through" : ""}`}>
+          <div className="font-bold">{todo.title}</div>
+          <div className="text-sm text-gray-600">{todo.content}</div>
+        </div>
+
+        <button
+          className="cursor-pointer"
+          onClick={handleDelete}
+          disabled={isPending}
+        >
+          {isPending ? (
+            <Loader2 className="h-6 w-6 animate-spin text-red-700" />
+          ) : (
+            <Trash2 className="w-6 h-6 text-red-700" />
+          )}
+        </button>
+      </Link>
+
+      <div className="text-sm text-red-500 mt-5">{error}</div>
+    </>
   );
 };
 
